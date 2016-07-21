@@ -195,7 +195,7 @@ public class GeoDynamoDBServlet extends HttpServlet {
 		PutPointRequest putPointRequest = new PutPointRequest(geoPoint, rangeKeyAttributeValue);
 //		putPointRequest.getPutItemRequest().addItemEntry("schoolName", schoolNameKeyAttributeValue);
 		putPointResult = geoDataManager.putPoint(putPointRequest); //This is where the data is inserted
-			printPutPointResult(putPointResult, out, 0);
+//			printPutPointResult(putPointResult, out, 0);
 			queryRadius(requestObject, out);
  		} else if ( !hashToCompare.equals(hashKey) ){
 			//Replace item from id_table and insert new item with new hash key.
@@ -218,7 +218,7 @@ public class GeoDynamoDBServlet extends HttpServlet {
 			PutPointRequest putPointRequest = new PutPointRequest(geoPoint, rangeKeyAttributeValue);
 //		putPointRequest.getPutItemRequest().addItemEntry("schoolName", schoolNameKeyAttributeValue);
 			putPointResult = geoDataManager.putPoint(putPointRequest); //This is where the data is inserted
-			printPutPointResult(putPointResult, out, 1);
+//			printPutPointResult(putPointResult, out, 1);
 			queryRadius(requestObject, out);
 		}  else {
 			Map<String, String> jsonMap = new HashMap<String, String>();
