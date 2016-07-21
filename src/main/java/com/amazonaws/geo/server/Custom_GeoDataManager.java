@@ -1,6 +1,7 @@
 package com.amazonaws.geo.server;
 
 import com.amazonaws.AmazonClientException;
+import com.amazonaws.geo.GeoDataManager;
 import com.amazonaws.geo.GeoDataManagerConfiguration;
 import com.amazonaws.geo.dynamodb.internal.DynamoDBManager;
 import com.amazonaws.geo.dynamodb.internal.DynamoDBUtil;
@@ -15,12 +16,9 @@ import com.google.common.geometry.S2CellUnion;
 import com.google.common.geometry.S2LatLng;
 import com.google.common.geometry.S2LatLngRect;
 
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 
 import com.amazonaws.geo.model.DeletePointRequest;
@@ -39,6 +37,8 @@ import com.amazonaws.geo.model.QueryRectangleRequest;
 import com.amazonaws.geo.model.QueryRectangleResult;
 import com.amazonaws.geo.model.UpdatePointRequest;
 import com.amazonaws.geo.model.UpdatePointResult;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParser;
 
 /**
  * <p>
@@ -51,11 +51,10 @@ import com.amazonaws.geo.model.UpdatePointResult;
  * </p>
  * */
 
-import java.util.Iterator;
-
 public class Custom_GeoDataManager {
     private GeoDataManagerConfiguration_Custom config;
     private DynamoDBManager_Custom dynamoDBManager;
+    private int count;
 
     public Custom_GeoDataManager(GeoDataManagerConfiguration_Custom config) {
         this.config = config;
@@ -82,7 +81,8 @@ public class Custom_GeoDataManager {
         return new QueryRectangleResult(this.dispatchQueries(ranges, queryRectangleRequest));
     }
 
-    public QueryRadiusResult queryRadius(QueryRadiusRequest queryRadiusRequest) {
+    public QueryRadiusResult queryRadius(QueryRadiusRequest queryRadiusRequest, int count) {
+        this.count = count;
         S2LatLngRect latLngRect = S2Util.getBoundingLatLngRect(queryRadiusRequest);
         S2CellUnion cellUnion = S2Manager.findCellIds(latLngRect);
         List ranges = this.mergeCells(cellUnion);
@@ -161,87 +161,115 @@ public class Custom_GeoDataManager {
 
     private List<Map<String, AttributeValue>> filter(List<Map<String, AttributeValue>> list, GeoQueryRequest geoQueryRequest) {
         ArrayList result = new ArrayList();
+        double[][] pointsd = new double[10][2];
+        ArrayList<double[]> points = new ArrayList<double[]>();
+        double[] centerPointCoordinates = new double[2];
+
+        GeoPoint centerPoint = null;
         S2LatLngRect latLngRect = null;
         S2LatLng centerLatLng = null;
         double radiusInMeter = 0.0D;
         if(geoQueryRequest instanceof QueryRectangleRequest) {
             latLngRect = S2Util.getBoundingLatLngRect(geoQueryRequest);
         } else if(geoQueryRequest instanceof QueryRadiusRequest) {
-            GeoPoint i$ = ((QueryRadiusRequest)geoQueryRequest).getCenterPoint();
-            centerLatLng = S2LatLng.fromDegrees(i$.getLatitude(), i$.getLongitude());
-            radiusInMeter = ((QueryRadiusRequest)geoQueryRequest).getRadiusInMeter();
+            centerPoint = ((QueryRadiusRequest)geoQueryRequest).getCenterPoint();
+            centerLatLng = S2LatLng.fromDegrees(centerPoint.getLatitude(), centerPoint.getLongitude());
         }
 
-        Iterator iterator = list.iterator();
 
+
+        if(centerPoint != null){
+            centerPointCoordinates[0] = centerPoint.getLongitude();
+            centerPointCoordinates[1] = centerPoint.getLatitude();
+        }
+
+
+        Iterator iterator = list.iterator();
         while(true) {
             while(iterator.hasNext()) {
                 Map item = (Map)iterator.next();
                 String geoJson = ((AttributeValue)item.get(this.config.getGeoJsonAttributeName())).getS();
+                String rangeKey = ((AttributeValue)item.get(this.config.getRangeKeyAttributeName())).getS();
                 GeoPoint geoPoint = GeoJsonMapper.geoPointFromString(geoJson);
-                S2LatLng latLng = S2LatLng.fromDegrees(geoPoint.getLatitude(), geoPoint.getLongitude());
-                if(latLngRect != null && latLngRect.contains(latLng)) {
-                    result.add(item);
-                } else if(centerLatLng != null) {
+                double latitude = geoPoint.getLatitude();
+                double longitude = geoPoint.getLongitude();
+
+
+                double[] point = { latitude, longitude };
+                points.add(point);
+
+
+                if(centerLatLng != null) {
                     result.add(item);
                 }
             }
 
 
-//            /**Old return logic**/
-//            for (Map<String, AttributeValue> item : list) {
-//                /** get location from the current item in list **/
-//                String geoJson = item.get(config.getGeoJsonAttributeName()).getS();
-//                GeoPoint geoPoint = GeoJsonMapper.geoPointFromString(geoJson);
-//                S2LatLng latLng = S2LatLng.fromDegrees(geoPoint.getLatitude(), geoPoint.getLongitude());
-//                /***********************************************/
-//
-//                if (latLngRect != null && latLngRect.contains(latLng)) {
-//                    result.add(item);
-//                } else if (centerLatLng != null) {
-//                    result.add(item);
-//                }
-//
-//            }
+            //Order the users closest to furthest
+            int closestPoint = nearestPoint(centerPointCoordinates, points);
 
-            /**New return logic**/
-//		double shortestDistance = 0;
-//		for (Map<String, AttributeValue> item : list) {
-//
-//			/** get location from the current item in list **/
-//			String geoJson = item.get(config.getGeoJsonAttributeName()).getS();
-//			GeoPoint geoPoint = GeoJsonMapper.geoPointFromString(geoJson);
-//			S2LatLng latLng = S2LatLng.fromDegrees(geoPoint.getLatitude(), geoPoint.getLongitude());
-//			/***********************************************/
-//
-//			if (latLngRect != null && latLngRect.contains(latLng))
-//			{
-//
-//				result.add(item);
-//
-//			} else if (centerLatLng != null)
-//			{
-//
-//				double currentDistance = centerLatLng.getEarthDistance(latLng);
-//				if(shortestDistance == 0)
-//				{
-//					shortestDistance = currentDistance;
-//					result.add(item);
-//				} else if( currentDistance < shortestDistance)
-//				{
-//					shortestDistance = currentDistance;
-//					result.add(item);
-//				} else {
-//					result.add(item);
-//				}
-//
-//
-//			}
-//
-//		}
 
-            return result;
+
+
+
+            //Determine what users to return back based on how far the user is scrolled in the map
+            ArrayList newResult = new ArrayList();
+            int increment = count * 20;
+        if(count == 0){
+            for(int i = 0; i < 20; i++){
+                if(result.size() > i){
+                    newResult.add(result.get(i));
+                } else {
+                    return newResult;
+                }
+            }
+        } else {
+            for(int i = increment; i < increment + 20; i++
+                    ){
+                if(result.size() > i){
+                    newResult.add(result.get(i));
+                } else {
+                    return newResult;
+                }
+            }
         }
+            return newResult;
+        }
+    }
+
+    private double[] pointCoordinates(Map item){
+        String geoJson = ((AttributeValue)item.get(this.config.getGeoJsonAttributeName())).getS();
+        GeoPoint geoPoint = GeoJsonMapper.geoPointFromString(geoJson);
+
+        double latitude = geoPoint.getLatitude();
+        double longitude = geoPoint.getLongitude();
+
+        return new double[]{ latitude, longitude };
+    }
+
+    private static double distance(double x1, double y1, double x2, double y2 ){
+        double x = Math.pow(x2 - x1, 2);
+        double y = Math.pow(y2 - y1, 2);
+        return Math.sqrt( x + y);
+    }
+
+    private static int nearestPoint(double[] coordinate, ArrayList<double[]> points){
+        final int X = 0;
+        final int Y = 1;
+        int itemNumber = 0;
+        double[] closestPoint = points.get(0);
+        double closestDist = distance(coordinate[X], coordinate[Y], closestPoint[X], closestPoint[X]);
+
+        //Traverse the ArrayList
+        for(int i = 0; i < points.size(); i++){
+            double dist = distance(coordinate[X], coordinate[Y], points.get(i)[X], points.get(i)[Y]);
+            if (dist < closestDist){
+                closestDist = dist;
+                closestPoint = points.get(i);
+                itemNumber = i;
+            }
+        }
+        return itemNumber;
     }
 
     private class GeoQueryThread extends Thread {
@@ -258,8 +286,9 @@ public class Custom_GeoDataManager {
         public void run() {
             QueryRequest queryRequest = DynamoDBUtil.copyQueryRequest(this.geoQueryRequest.getQueryRequest());
             long hashKey = S2Manager.generateHashKey(this.range.getRangeMin(), Custom_GeoDataManager.this.config.getHashKeyLength());
-            List queryResults = Custom_GeoDataManager.this.dynamoDBManager.queryGeohash(queryRequest, hashKey, this.range);
+            List queryResults = Custom_GeoDataManager.this.dynamoDBManager.queryGeohash(queryRequest, hashKey, this.range, count);
             Iterator iterator = queryResults.iterator();
+
 
             while(iterator.hasNext()) {
                 QueryResult queryResult = (QueryResult)iterator.next();

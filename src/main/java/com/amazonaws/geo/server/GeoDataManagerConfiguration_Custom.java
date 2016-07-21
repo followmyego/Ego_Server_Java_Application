@@ -23,7 +23,7 @@ public class GeoDataManagerConfiguration_Custom {
     private static final String DEFAULT_GEOHASH_ATTRIBUTE_NAME = "geohash";
     private static final String DEFAULT_GEOJSON_ATTRIBUTE_NAME = "geoJson";
     private static final String DEFAULT_GEOHASH_INDEX_ATTRIBUTE_NAME = "geohash-index";
-    private static final int DEFAULT_HASHKEY_LENGTH = 5;
+    private static final int DEFAULT_HASHKEY_LENGTH = 2;
     private static final int DEFAULT_THREAD_POOL_SIZE = 10;
     private String tableName;
     private String hashKeyAttributeName = "hashKey";
@@ -31,7 +31,7 @@ public class GeoDataManagerConfiguration_Custom {
     private String geohashAttributeName = "geohash";
     private String geoJsonAttributeName = "geoJson";
     private String geohashIndexName = "geohash-index";
-    private int hashKeyLength = 5;
+    private int hashKeyLength = 2;
     private AmazonDynamoDBClient dynamoDBClient;
     private ExecutorService executorService;
 

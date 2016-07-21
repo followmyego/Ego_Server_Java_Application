@@ -196,6 +196,7 @@ public class GeoDynamoDBServlet extends HttpServlet {
 //		putPointRequest.getPutItemRequest().addItemEntry("schoolName", schoolNameKeyAttributeValue);
 		putPointResult = geoDataManager.putPoint(putPointRequest); //This is where the data is inserted
 			printPutPointResult(putPointResult, out, 0);
+			queryRadius(requestObject, out);
  		} else if ( !hashToCompare.equals(hashKey) ){
 			//Replace item from id_table and insert new item with new hash key.
 			try{
@@ -218,6 +219,7 @@ public class GeoDynamoDBServlet extends HttpServlet {
 //		putPointRequest.getPutItemRequest().addItemEntry("schoolName", schoolNameKeyAttributeValue);
 			putPointResult = geoDataManager.putPoint(putPointRequest); //This is where the data is inserted
 			printPutPointResult(putPointResult, out, 1);
+			queryRadius(requestObject, out);
 		}  else {
 			Map<String, String> jsonMap = new HashMap<String, String>();
 			jsonMap.put("Nothing", "happened");
@@ -238,6 +240,7 @@ public class GeoDynamoDBServlet extends HttpServlet {
 
 		out.println(mapper.writeValueAsString(jsonMap));
 		out.flush();
+
 	}
 
 	private void getPoint(JSONObject requestObject, PrintWriter out) throws IOException, JSONException {
@@ -348,7 +351,7 @@ public class GeoDynamoDBServlet extends HttpServlet {
 	private void queryRadius(JSONObject requestObject, PrintWriter out) throws IOException, JSONException {
 		GeoPoint centerPoint = new GeoPoint(requestObject.getDouble("lat"), requestObject.getDouble("lng"));
 		double radiusInMeter = requestObject.getDouble("radiusInMeter");
-
+		int count = requestObject.getInt("count");
 
 		
 		List<String> attributesToGet = new ArrayList<String>();
@@ -358,7 +361,7 @@ public class GeoDynamoDBServlet extends HttpServlet {
 
 		QueryRadiusRequest queryRadiusRequest = new QueryRadiusRequest(centerPoint, radiusInMeter);
 		queryRadiusRequest.getQueryRequest().setAttributesToGet(attributesToGet);
-		QueryRadiusResult queryRadiusResult = geoDataManager.queryRadius(queryRadiusRequest);
+		QueryRadiusResult queryRadiusResult = geoDataManager.queryRadius(queryRadiusRequest, count);
 
 		printGeoQueryResult(queryRadiusResult, out);
 	}

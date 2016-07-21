@@ -27,6 +27,8 @@ import com.amazonaws.services.dynamodbv2.model.QueryResult;
 import com.amazonaws.services.dynamodbv2.model.ReturnConsumedCapacity;
 import com.amazonaws.services.dynamodbv2.model.UpdateItemRequest;
 import com.amazonaws.services.dynamodbv2.model.UpdateItemResult;
+import sun.rmi.runtime.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +43,87 @@ public class DynamoDBManager_Custom {
 
     //The argument "count" is used to determine how far the user is scrolled in the map
     public List<QueryResult> queryGeohash(QueryRequest queryRequest, long hashKey, GeohashRange range, int count) {
+        ArrayList queryResults = new ArrayList();
+        Map lastEvaluatedKey = null;
+        int counter = 0;
+        do {
+            //Create a HashMap to hold our Conditions
+            HashMap keyConditions = new HashMap();
+
+            //Create a Condition: Item must == this hashkey
+            Condition hashKeyCondition = (new Condition())
+                    .withComparisonOperator(ComparisonOperator.EQ)
+                    .withAttributeValueList(new AttributeValue[]{(new AttributeValue()).withN(String.valueOf(hashKey))});
+
+            //Add condition to our HashMap of Conditions
+            keyConditions.put(this.config.getHashKeyAttributeName(), hashKeyCondition);
+
+            //Create the attribute values for the minimum and maximum range
+            AttributeValue minRange = (new AttributeValue()).withN(Long.toString(range.getRangeMin()));
+            AttributeValue maxRange = (new AttributeValue()).withN(Long.toString(range.getRangeMax()));
+
+            //Create a Condition:
+            Condition geohashCondition = (new Condition())
+                    .withComparisonOperator(ComparisonOperator.BETWEEN)
+                    .withAttributeValueList(new AttributeValue[]{minRange, maxRange});
+
+            //Add condition to our HashMap of Conditions
+            keyConditions.put(this.config.getGeohashAttributeName(), geohashCondition);
+
+            //Set up the query request with the Key Conditions and Index name
+            queryRequest.withTableName(this.config.getTableName())
+                    .withKeyConditions(keyConditions)
+                    .withIndexName(this.config.getGeohashIndexName())
+                    .withConsistentRead(Boolean.valueOf(true))
+                    .withReturnConsumedCapacity(ReturnConsumedCapacity.TOTAL);
+
+            if(lastEvaluatedKey != null) {
+                queryRequest.addExclusiveStartKeyEntry(this.config.getHashKeyAttributeName(), (AttributeValue)lastEvaluatedKey.get(this.config.getHashKeyAttributeName()));
+            }
+
+            QueryResult queryResult = this.config.getDynamoDBClient().query(queryRequest);
+            queryResults.add(queryResult);
+
+            lastEvaluatedKey = queryResult.getLastEvaluatedKey();
+
+        } while(lastEvaluatedKey != null);
+
+        //Determine what users to return back based on how far the user is scrolled in the map
+//        ArrayList filteredQueryResults = new ArrayList();
+//        if(count == 0){
+//            for(int i = 0; i < 20; i++){
+//                if(queryResults.size() > i){
+//                    filteredQueryResults.add(queryResults.get(i));
+//                } else {
+//                    return queryResults;
+//                }
+//            }
+//        } else if(count == 1){
+//            for(int i = 20; i < 40; i++){
+//                if(queryResults.size() > i){
+//                    filteredQueryResults.add(queryResults.get(i));
+//                } else {
+//                    return filteredQueryResults;
+//                }
+//            }
+//        } else if(count == 2){
+//            for(int i = 40; i < 60; i++){
+//                if(queryResults.size() > i){
+//                    filteredQueryResults.add(queryResults.get(i));
+//                } else {
+//                    return queryResults;
+//                }
+//            }
+//        } else {
+//            return queryResults;
+//        }
+
+
+        return queryResults;
+    }
+
+    //The argument "count" is used to determine how far the user is scrolled in the map
+    public List<QueryResult> queryGeohash2(QueryRequest queryRequest, long hashKey, GeohashRange range, int count) {
         ArrayList queryResults = new ArrayList();
         Map lastEvaluatedKey = null;
 
@@ -71,7 +154,7 @@ public class DynamoDBManager_Custom {
             //Set up the query request with the Key Conditions and Index name
             queryRequest.withTableName(this.config.getTableName())
                     .withKeyConditions(keyConditions)
-                    .withIndexName(this.config.getGeohashIndexName())
+                    .withIndexName("geohash-index-2")
                     .withConsistentRead(Boolean.valueOf(true))
                     .withReturnConsumedCapacity(ReturnConsumedCapacity.TOTAL);
 
