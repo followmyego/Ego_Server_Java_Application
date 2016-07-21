@@ -161,8 +161,8 @@ public class Custom_GeoDataManager {
 
     private List<Map<String, AttributeValue>> filter(List<Map<String, AttributeValue>> list, GeoQueryRequest geoQueryRequest) {
         ArrayList result = new ArrayList();
-        double[][] pointsd = new double[10][2];
         ArrayList<double[]> points = new ArrayList<double[]>();
+        ArrayList<String> facebookIds = new ArrayList<String>();
         double[] centerPointCoordinates = new double[2];
 
         GeoPoint centerPoint = null;
@@ -197,18 +197,28 @@ public class Custom_GeoDataManager {
 
                 double[] point = { latitude, longitude };
                 points.add(point);
+                facebookIds.add(rangeKey);
 
 
-                if(centerLatLng != null) {
-                    result.add(item);
-                }
+//                if(centerLatLng != null) {
+//                    result.add(item);
+//                }
             }
 
 
-            //Order the users closest to furthest
-            int closestPoint = nearestPoint(centerPointCoordinates, points);
 
+            while(points.size() != 0){
+                //find the nearestPoint
+                int nearestPoint = nearestPoint(centerPointCoordinates, points);
 
+                //remove item at index nearest point
+                points.remove(nearestPoint);
+
+                //Add the item to the new ArrayList
+                Map item = (Map)list.get(nearestPoint);
+                result.add(item);
+                list.remove(nearestPoint);
+            };
 
 
 
@@ -237,15 +247,6 @@ public class Custom_GeoDataManager {
         }
     }
 
-    private double[] pointCoordinates(Map item){
-        String geoJson = ((AttributeValue)item.get(this.config.getGeoJsonAttributeName())).getS();
-        GeoPoint geoPoint = GeoJsonMapper.geoPointFromString(geoJson);
-
-        double latitude = geoPoint.getLatitude();
-        double longitude = geoPoint.getLongitude();
-
-        return new double[]{ latitude, longitude };
-    }
 
     private static double distance(double x1, double y1, double x2, double y2 ){
         double x = Math.pow(x2 - x1, 2);
