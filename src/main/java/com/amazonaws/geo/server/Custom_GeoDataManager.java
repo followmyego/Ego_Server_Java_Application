@@ -224,9 +224,9 @@ public class Custom_GeoDataManager {
 
             //Determine what users to return back based on how far the user is scrolled in the map
             ArrayList newResult = new ArrayList();
-            int increment = count * 20;
+            int increment = count * 16;
         if(count == 0){
-            for(int i = 0; i < 20; i++){
+            for(int i = 0; i < 16; i++){
                 if(result.size() > i){
                     newResult.add(result.get(i));
                 } else {
@@ -234,7 +234,7 @@ public class Custom_GeoDataManager {
                 }
             }
         } else {
-            for(int i = increment; i < increment + 20; i++
+            for(int i = increment; i < increment + 16; i++
                     ){
                 if(result.size() > i){
                     newResult.add(result.get(i));
@@ -245,6 +245,7 @@ public class Custom_GeoDataManager {
         }
             return newResult;
         }
+
     }
 
 
