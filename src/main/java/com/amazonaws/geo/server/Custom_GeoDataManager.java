@@ -199,10 +199,6 @@ public class Custom_GeoDataManager {
                 points.add(point);
                 facebookIds.add(rangeKey);
 
-
-//                if(centerLatLng != null) {
-//                    result.add(item);
-//                }
             }
 
 

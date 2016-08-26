@@ -47,5 +47,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:javax.servlet-api:3.0.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.restfb:restfb:1.29.0" level="project" />
   </component>
 </module>

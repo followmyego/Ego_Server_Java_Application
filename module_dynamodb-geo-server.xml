@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_dynamodb-geo-server" default="compile.module.dynamodb-geo-server">
+  <dirname property="module.dynamodb-geo-server.basedir" file="${ant.file.module_dynamodb-geo-server}"/>
+  
+  <property name="module.jdk.home.dynamodb-geo-server" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.dynamodb-geo-server" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.dynamodb-geo-server" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.dynamodb-geo-server" value="-encoding UTF-8 -source 1.5 -target 1.5 ${compiler.args}"/>
+  
+  <property name="dynamodb-geo-server.output.dir" value="${module.dynamodb-geo-server.basedir}/target/classes"/>
+  <property name="dynamodb-geo-server.testoutput.dir" value="${module.dynamodb-geo-server.basedir}/target/test-classes"/>
+  
+  <path id="dynamodb-geo-server.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="dynamodb-geo-server.module.production.classpath">
+    <path refid="${module.jdk.classpath.dynamodb-geo-server}"/>
+    <path refid="library.maven:_com.amazonaws:aws-java-sdk:1.5.5.classpath"/>
+    <path refid="library.maven:_commons-logging:commons-logging:1.1.1.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpclient:4.2.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpcore:4.2.classpath"/>
+    <path refid="library.maven:_commons-codec:commons-codec:1.3.classpath"/>
+    <path refid="library.maven:_org.codehaus.jackson:jackson-core-asl:1.8.9.classpath"/>
+    <path refid="library.maven:_org.codehaus.jackson:jackson-mapper-asl:1.8.9.classpath"/>
+    <path refid="library.maven:_junit:junit:4.11.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <pathelement location="${basedir}/src/main/webapp/WEB-INF/lib/s2-geometry-java.jar"/>
+    <pathelement location="${basedir}/src/main/webapp/WEB-INF/lib/guava-r09.jar"/>
+    <pathelement location="${basedir}/src/main/webapp/WEB-INF/lib/dynamodb-geo-1.0.0.jar"/>
+    <path refid="library.maven:_javax.servlet:javax.servlet-api:3.0.1.classpath"/>
+    <path refid="library.maven:_com.restfb:restfb:1.29.0.classpath"/>
+  </path>
+  
+  <path id="dynamodb-geo-server.runtime.production.module.classpath">
+    <pathelement location="${dynamodb-geo-server.output.dir}"/>
+    <path refid="library.maven:_com.amazonaws:aws-java-sdk:1.5.5.classpath"/>
+    <path refid="library.maven:_commons-logging:commons-logging:1.1.1.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpclient:4.2.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpcore:4.2.classpath"/>
+    <path refid="library.maven:_commons-codec:commons-codec:1.3.classpath"/>
+    <path refid="library.maven:_org.codehaus.jackson:jackson-core-asl:1.8.9.classpath"/>
+    <path refid="library.maven:_org.codehaus.jackson:jackson-mapper-asl:1.8.9.classpath"/>
+    <path refid="library.maven:_junit:junit:4.11.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <pathelement location="${basedir}/src/main/webapp/WEB-INF/lib/s2-geometry-java.jar"/>
+    <pathelement location="${basedir}/src/main/webapp/WEB-INF/lib/guava-r09.jar"/>
+    <pathelement location="${basedir}/src/main/webapp/WEB-INF/lib/dynamodb-geo-1.0.0.jar"/>
+  </path>
+  
+  <path id="dynamodb-geo-server.module.classpath">
+    <path refid="${module.jdk.classpath.dynamodb-geo-server}"/>
+    <pathelement location="${dynamodb-geo-server.output.dir}"/>
+    <path refid="library.maven:_com.amazonaws:aws-java-sdk:1.5.5.classpath"/>
+    <path refid="library.maven:_commons-logging:commons-logging:1.1.1.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpclient:4.2.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpcore:4.2.classpath"/>
+    <path refid="library.maven:_commons-codec:commons-codec:1.3.classpath"/>
+    <path refid="library.maven:_org.codehaus.jackson:jackson-core-asl:1.8.9.classpath"/>
+    <path refid="library.maven:_org.codehaus.jackson:jackson-mapper-asl:1.8.9.classpath"/>
+    <path refid="library.maven:_junit:junit:4.11.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <pathelement location="${basedir}/src/main/webapp/WEB-INF/lib/s2-geometry-java.jar"/>
+    <pathelement location="${basedir}/src/main/webapp/WEB-INF/lib/guava-r09.jar"/>
+    <pathelement location="${basedir}/src/main/webapp/WEB-INF/lib/dynamodb-geo-1.0.0.jar"/>
+    <path refid="library.maven:_javax.servlet:javax.servlet-api:3.0.1.classpath"/>
+    <path refid="library.maven:_com.restfb:restfb:1.29.0.classpath"/>
+  </path>
+  
+  <path id="dynamodb-geo-server.runtime.module.classpath">
+    <pathelement location="${dynamodb-geo-server.testoutput.dir}"/>
+    <pathelement location="${dynamodb-geo-server.output.dir}"/>
+    <path refid="library.maven:_com.amazonaws:aws-java-sdk:1.5.5.classpath"/>
+    <path refid="library.maven:_commons-logging:commons-logging:1.1.1.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpclient:4.2.classpath"/>
+    <path refid="library.maven:_org.apache.httpcomponents:httpcore:4.2.classpath"/>
+    <path refid="library.maven:_commons-codec:commons-codec:1.3.classpath"/>
+    <path refid="library.maven:_org.codehaus.jackson:jackson-core-asl:1.8.9.classpath"/>
+    <path refid="library.maven:_org.codehaus.jackson:jackson-mapper-asl:1.8.9.classpath"/>
+    <path refid="library.maven:_junit:junit:4.11.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <pathelement location="${basedir}/src/main/webapp/WEB-INF/lib/s2-geometry-java.jar"/>
+    <pathelement location="${basedir}/src/main/webapp/WEB-INF/lib/guava-r09.jar"/>
+    <pathelement location="${basedir}/src/main/webapp/WEB-INF/lib/dynamodb-geo-1.0.0.jar"/>
+    <path refid="library.maven:_javax.servlet:javax.servlet-api:3.0.1.classpath"/>
+    <path refid="library.maven:_com.restfb:restfb:1.29.0.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.dynamodb-geo-server">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.dynamodb-geo-server">
+    <patternset refid="excluded.from.module.dynamodb-geo-server"/>
+  </patternset>
+  
+  <path id="dynamodb-geo-server.module.sourcepath">
+    <dirset dir="${module.dynamodb-geo-server.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.dynamodb-geo-server" depends="compile.module.dynamodb-geo-server.production,compile.module.dynamodb-geo-server.tests" description="Compile module dynamodb-geo-server"/>
+  
+  <target name="compile.module.dynamodb-geo-server.production" depends="register.custom.compilers" description="Compile module dynamodb-geo-server; production classes">
+    <mkdir dir="${dynamodb-geo-server.output.dir}"/>
+    <javac2 destdir="${dynamodb-geo-server.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.dynamodb-geo-server}/javac">
+      <compilerarg line="${compiler.args.dynamodb-geo-server}"/>
+      <bootclasspath refid="dynamodb-geo-server.module.bootclasspath"/>
+      <classpath refid="dynamodb-geo-server.module.production.classpath"/>
+      <src refid="dynamodb-geo-server.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.dynamodb-geo-server"/>
+    </javac2>
+    
+    <copy todir="${dynamodb-geo-server.output.dir}">
+      <fileset dir="${module.dynamodb-geo-server.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.dynamodb-geo-server.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.dynamodb-geo-server.tests" depends="register.custom.compilers,compile.module.dynamodb-geo-server.production" description="compile module dynamodb-geo-server; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.dynamodb-geo-server" description="cleanup module">
+    <delete dir="${dynamodb-geo-server.output.dir}"/>
+    <delete dir="${dynamodb-geo-server.testoutput.dir}"/>
+  </target>
+</project>

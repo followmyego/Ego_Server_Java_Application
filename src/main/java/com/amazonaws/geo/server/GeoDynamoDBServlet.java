@@ -33,7 +33,10 @@ import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.geo.GeoDataManager;
 import com.amazonaws.geo.s2.internal.S2Manager;
+import com.amazonaws.geo.server.util.Facebook_Class;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.identitymanagement.model.User;
+import com.amazonaws.util.json.JSONArray;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
@@ -42,7 +45,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.geo.GeoDataManagerConfiguration;
 import com.amazonaws.geo.model.DeletePointRequest;
 import com.amazonaws.geo.model.DeletePointResult;
 import com.amazonaws.geo.model.GeoPoint;
@@ -81,6 +83,7 @@ public class GeoDynamoDBServlet extends HttpServlet {
 
 	private ObjectMapper mapper;
 	private JsonFactory factory;
+	private String facebookId;
 
 	public void init() throws ServletException {
 		setupGeoDataManager();
@@ -157,7 +160,7 @@ public class GeoDynamoDBServlet extends HttpServlet {
 		log("second section123");
 
 		//Create the HashReference object to pass to the HashReference table for comparisons.
-		String facebookId = requestObject.getString("rangeKey");
+		facebookId = requestObject.getString("rangeKey");
 
 		log("third section123");
 
@@ -345,7 +348,7 @@ public class GeoDynamoDBServlet extends HttpServlet {
 		queryRectangleRequest.getQueryRequest().setAttributesToGet(attributesToGet);
 		QueryRectangleResult queryRectangleResult = geoDataManager.queryRectangle(queryRectangleRequest);
 
-		printGeoQueryResult(queryRectangleResult, out);
+		printGeoQueryResult(queryRectangleResult, out, "someString");
 	}
 
 	private void queryRadius(JSONObject requestObject, PrintWriter out) throws IOException, JSONException {
@@ -353,6 +356,10 @@ public class GeoDynamoDBServlet extends HttpServlet {
 		double radiusInMeter = requestObject.getDouble("radiusInMeter");
 		int count = requestObject.getInt("count");
 
+		//This is the to test the facebook api working from the server but i am getting a FileNotFoundException.
+		String accessToken = requestObject.getString("accessToken");
+//		String hometown = Facebook_Class.getHometown(accessToken);
+		String hometown = " ";
 		
 		List<String> attributesToGet = new ArrayList<String>();
 		attributesToGet.add(config.getRangeKeyAttributeName());
@@ -363,11 +370,12 @@ public class GeoDynamoDBServlet extends HttpServlet {
 		queryRadiusRequest.getQueryRequest().setAttributesToGet(attributesToGet);
 		QueryRadiusResult queryRadiusResult = geoDataManager.queryRadius(queryRadiusRequest, count);
 
-		printGeoQueryResult(queryRadiusResult, out);
+		printGeoQueryResult(queryRadiusResult, out, hometown);
 	}
 
-	private void printGeoQueryResult(GeoQueryResult geoQueryResult, PrintWriter out) throws JsonParseException,
+	private void printGeoQueryResult(GeoQueryResult geoQueryResult, PrintWriter out, String homeTown) throws JsonParseException,
 			IOException {
+
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		List<Map<String, String>> resultArray = new ArrayList<Map<String, String>>();
 
@@ -381,24 +389,240 @@ public class GeoDynamoDBServlet extends HttpServlet {
 			double latitude = jsonNode.get("coordinates").get(0).getDoubleValue();
 			double longitude = jsonNode.get("coordinates").get(1).getDoubleValue();
 			String rangeKey = item.get(config.getRangeKeyAttributeName()).getS();
-//			String schoolName = "";
-//			if (item.containsKey("schoolName")) {
-//				schoolName = item.get("schoolName").getS();
-//			}
+
+			String userToCompare = rangeKey;
+			int badgeNumber = getBadge(facebookId, userToCompare);
 
 			itemMap.put("latitude", Double.toString(latitude));
 			itemMap.put("longitude", Double.toString(longitude));
 			itemMap.put("rangeKey", rangeKey);
+			itemMap.put("badge", Integer.toString(badgeNumber));
+
 //			itemMap.put("schoolName", schoolName);
 
 			resultArray.add(itemMap);
 		}
 
 		jsonMap.put("action", "query");
+//		jsonMap.put("homeTown", homeTown);
 		jsonMap.put("result", resultArray);
 
 		out.println(mapper.writeValueAsString(jsonMap));
 		out.flush();
+	}
+
+	/** This method compares the badge variables of the users against eachother **/
+	private int getBadge(String facebookId_1, String facebookId_2) {
+		User_Badges userBadges1 = new User_Badges();
+		User_Badges userBadges2 = new User_Badges();
+
+
+		/** Get both of the user's badges **/
+		try {
+			userBadges1 = dynamoDBMapper.load(User_Badges.class, facebookId_1);
+			userBadges2 = dynamoDBMapper.load(User_Badges.class, facebookId_2);
+		} catch (final AmazonServiceException e) {
+			e.printStackTrace();
+			log(e.toString());
+		}
+
+		/** Compare the badge items **/
+		if(userBadges1 != null && userBadges2 != null){
+
+			//Compare workplace
+			if(!userBadges1.getWorkplace_json().equals("") && !userBadges2.getWorkplace_json().equals("")){
+				try{
+					String string1 = userBadges1.getWorkplace_json();
+					JSONObject json_workplace1 = new JSONObject(string1);
+					JSONArray jsonArray1 = json_workplace1.getJSONArray("work");
+
+					String string2 = userBadges2.getWorkplace_json();
+					JSONObject json_workplace2 = new JSONObject(string2);
+					JSONArray jsonArray2 = json_workplace2.getJSONArray("work");
+
+					//Comparison of workplaces here
+					//If one of the employers match, return the common workplace badge int
+					for(int i = 0; i < jsonArray1.length(); i ++){
+						JSONObject jsonObject = jsonArray1.getJSONObject(i);
+						String employer = jsonObject.getString("employer");
+
+						if(jsonArray2.getJSONObject(i).getString("employer").equals(employer)){
+							return 1;
+						}
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+			//Compare birthday
+			if(!userBadges1.getBirthday().equals("") && !userBadges2.getBirthday().equals("")){
+				if(userBadges1.getBirthday().equals(userBadges2.getBirthday())){
+					return 2;
+				}
+			}
+
+			//Compare skills
+			if(!userBadges1.getProfessionalSkills_json().equals("") && !userBadges2.getProfessionalSkills_json().equals("")){
+				try{
+					String string1 = userBadges1.getProfessionalSkills_json();
+					JSONObject json_skills1 = new JSONObject(string1);
+					JSONArray jsonArray1 = json_skills1.getJSONArray("skills");
+
+					String string2 = userBadges2.getProfessionalSkills_json();
+					JSONObject json_skills2 = new JSONObject(string2);
+					JSONArray jsonArray2 = json_skills2.getJSONArray("skills");
+
+					//Comparison of skills here
+					//If one of the skills match, return the common skill badge int
+					for(int i = 0; i < jsonArray1.length(); i ++){
+						String skill = jsonArray1.get(i).toString();
+						if(jsonArray2.toString().contains(skill)){
+							return 3;
+						}
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+			//Compare music
+			if(!userBadges1.getMusic_json().equals("") && !userBadges2.getMusic_json().equals("")){
+				try{
+					String string1 = userBadges1.getMusic_json();
+					JSONObject json_music1 = new JSONObject(string1);
+					JSONArray jsonArray1 = json_music1.getJSONArray("music");
+
+					String string2 = userBadges2.getMusic_json();
+					JSONObject json_music2 = new JSONObject(string2);
+					JSONArray jsonArray2 = json_music2.getJSONArray("music");
+
+					//Comparison of music here
+					//If one of the music match, return the common music badge int
+					for(int i = 0; i < jsonArray1.length(); i ++){
+						String artist = jsonArray1.get(i).toString();
+						if(jsonArray2.toString().contains(artist)){
+							return 4;
+						}
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+			//Compare books
+			if(!userBadges1.getBooks_json().equals("") && !userBadges2.getBooks_json().equals("")){
+				try{
+					String string1 = userBadges1.getBooks_json();
+					JSONObject json_books1 = new JSONObject(string1);
+					JSONArray jsonArray1 = json_books1.getJSONArray("books");
+
+					String string2 = userBadges2.getBooks_json();
+					JSONObject json_books2 = new JSONObject(string2);
+					JSONArray jsonArray2 = json_books2.getJSONArray("books");
+
+					//Comparison of books here
+					//If one of the books match, return the common books badge int
+					for(int i = 0; i < jsonArray1.length(); i ++){
+						String book = jsonArray1.get(i).toString();
+						if(jsonArray2.toString().contains(book)){
+							return 5;
+						}
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+			//Compare movies
+			if(!userBadges1.getMovies_json().equals("") && !userBadges2.getMovies_json().equals("")){
+				try{
+					String string1 = userBadges1.getMovies_json();
+					JSONObject json_movies1 = new JSONObject(string1);
+					JSONArray jsonArray1 = json_movies1.getJSONArray("movies");
+
+					String string2 = userBadges2.getMovies_json();
+					JSONObject json_movies2 = new JSONObject(string2);
+					JSONArray jsonArray2 = json_movies2.getJSONArray("movies");
+
+					//Comparison of movies here
+					//If one of the movies match, return the common movies badge int
+					for(int i = 0; i < jsonArray1.length(); i ++){
+						String movie = jsonArray1.get(i).toString();
+						if(jsonArray2.toString().contains(movie)){
+							return 6;
+						}
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+			//Compare schools
+			if(!userBadges1.getSchool_json().equals("") && !userBadges2.getSchool_json().equals("")){
+				try{
+					String string1 = userBadges1.getSchool_json();
+					JSONObject json_schools1 = new JSONObject(string1);
+					JSONArray jsonArray1 = json_schools1.getJSONArray("schools");
+
+					String string2 = userBadges2.getSchool_json();
+					JSONObject json_schools2 = new JSONObject(string2);
+					JSONArray jsonArray2 = json_schools2.getJSONArray("schools");
+
+					//Comparison of schools here
+					//If one of the schools match, return the common school badge int
+					for(int i = 0; i < jsonArray1.length(); i ++){
+						String school = jsonArray1.get(i).toString();
+						if(jsonArray2.toString().contains(school)){
+							return 7;
+						}
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+			//Compare hometown
+			if(!userBadges1.getHometown().equals("") && !userBadges2.getHometown().equals("")){
+				if(userBadges1.getHometown().equals(userBadges2.getHometown())){
+					return 8;
+				}
+			}
+
+			//Compare location
+			if(!userBadges1.getLocation().equals("") && !userBadges2.getLocation().equals("")){
+				if(userBadges1.getLocation().equals(userBadges2.getLocation())){
+					return 9;
+				}
+			}
+
+			//Compare likes
+			if(!userBadges1.getLikes_json().equals("") && !userBadges2.getLikes_json().equals("")){
+				try{
+					String string1 = userBadges1.getLikes_json();
+					JSONObject json_likes1 = new JSONObject(string1);
+					JSONArray jsonArray1 = json_likes1.getJSONArray("likes");
+
+					String string2 = userBadges2.getLikes_json();
+					JSONObject json_likes2 = new JSONObject(string2);
+					JSONArray jsonArray2 = json_likes2.getJSONArray("likes");
+
+					//Comparison of likes here
+					//If one of the likes match, return the common like badge int
+					for(int i = 0; i < jsonArray1.length(); i ++){
+						String like = jsonArray1.get(i).toString();
+						if(jsonArray2.toString().contains(like)){
+							return 10;
+						}
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}
+
+		return 0;
 	}
 
 	private void deletePoint(JSONObject requestObject, PrintWriter out) throws IOException, JSONException {
