@@ -9,12 +9,11 @@ import java.nio.charset.Charset;
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.geo.GeoDataManagerConfiguration;
 import com.amazonaws.geo.model.GeoPoint;
 import com.amazonaws.geo.model.PutPointRequest;
-import com.amazonaws.geo.server.Custom_GeoDataManager;
-import com.amazonaws.geo.server.GeoDataManagerConfiguration_Custom;
-import com.amazonaws.geo.server.GeoTableUtil_Custom;
+import com.amazonaws.geo.server.Geo_Data_Manager;
+import com.amazonaws.geo.server.GeoDataManager_Configuration;
+import com.amazonaws.geo.server.GeoTable_Util;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
@@ -32,7 +31,7 @@ public class Utilities {
 	}
 
 	private Status status = Status.NOT_STARTED;
-	private Custom_GeoDataManager geoDataManager;
+	private Geo_Data_Manager geoDataManager;
 
 	public static synchronized Utilities getInstance() {
 		if (utilities == null) {
@@ -69,7 +68,7 @@ public class Utilities {
 	public void setupTable() {
 		setupGeoDataManager();
 
-		GeoDataManagerConfiguration_Custom config = geoDataManager.getGeoDataManagerConfiguration();
+		GeoDataManager_Configuration config = geoDataManager.getGeoDataManagerConfiguration();
 		DescribeTableRequest describeTableRequest = new DescribeTableRequest().withTableName(config.getTableName());
 
 		try {
@@ -99,8 +98,8 @@ public class Utilities {
 			AmazonDynamoDBClient ddb = new AmazonDynamoDBClient(credentials, clientConfiguration);
 			ddb.setRegion(region);
 
-			GeoDataManagerConfiguration_Custom config = new GeoDataManagerConfiguration_Custom(ddb, tableName);
-			geoDataManager = new Custom_GeoDataManager(config);
+			GeoDataManager_Configuration config = new GeoDataManager_Configuration(ddb, tableName);
+			geoDataManager = new Geo_Data_Manager(config);
 		}
 	}
 
@@ -108,9 +107,9 @@ public class Utilities {
 		public void run() {
 			status = Status.CREATING_TABLE;
 
-			GeoDataManagerConfiguration_Custom config = geoDataManager.getGeoDataManagerConfiguration();
+			GeoDataManager_Configuration config = geoDataManager.getGeoDataManagerConfiguration();
 
-			CreateTableRequest createTableRequest = GeoTableUtil_Custom.getCreateTableRequest(config);
+			CreateTableRequest createTableRequest = GeoTable_Util.getCreateTableRequest(config);
 			config.getDynamoDBClient().createTable(createTableRequest);
 
 			waitForTableToBeReady();
@@ -127,18 +126,15 @@ public class Utilities {
 
 			try {
 				while ((line = br.readLine()) != null) {
+
 					String[] columns = line.split("\t");
 					String facebookId = columns[0];
-//					String schoolName = columns[1];
 					double latitude = Double.parseDouble(columns[2]);
 					double longitude = Double.parseDouble(columns[3]);
 
 					GeoPoint geoPoint = new GeoPoint(latitude, longitude);
 					AttributeValue rangeKeyValue = new AttributeValue().withS(facebookId);
-//					AttributeValue schoolNameValue = new AttributeValue().withS(schoolName);
-
 					PutPointRequest putPointRequest = new PutPointRequest(geoPoint, rangeKeyValue);
-//					putPointRequest.getPutItemRequest().getItem().put("schoolName", schoolNameValue);
 
 					geoDataManager.putPoint(putPointRequest);
 				}
@@ -157,7 +153,7 @@ public class Utilities {
 		}
 
 		private void waitForTableToBeReady() {
-			GeoDataManagerConfiguration_Custom config = geoDataManager.getGeoDataManagerConfiguration();
+			GeoDataManager_Configuration config = geoDataManager.getGeoDataManagerConfiguration();
 
 			DescribeTableRequest describeTableRequest = new DescribeTableRequest().withTableName(config.getTableName());
 			DescribeTableResult describeTableResult = config.getDynamoDBClient().describeTable(describeTableRequest);

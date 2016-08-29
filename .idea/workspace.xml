@@ -6,33 +6,15 @@
       <artifact name="unnamed2" />
     </artifacts-to-build>
   </component>
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoDynamoDBServlet.java" line="155" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="ef703a72-79b8-4744-b10c-16d97d2026c0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/artifacts/unnamed2/unnamed.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/properfilesInWar/WEB-INF/classes/com/amazonaws/geo/server/User_Badges.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/properfilesInWar/WEB-INF/classes/com/amazonaws/geo/server/util/Facebook_Class.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_restfb_restfb_1_29_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dynamodb-geo-server.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dynamodb-geo-server.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/module_dynamodb-geo-server.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/User_Badges.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/util/Facebook_Class.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/properfilesInWar.zip" afterPath="$PROJECT_DIR$/properfilesInWar.zip" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/properfilesInWar/WEB-INF/classes/com/amazonaws/geo/server/Custom_GeoDataManager$GeoQueryThread.class" afterPath="$PROJECT_DIR$/properfilesInWar/WEB-INF/classes/com/amazonaws/geo/server/Custom_GeoDataManager$GeoQueryThread.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/properfilesInWar/WEB-INF/classes/com/amazonaws/geo/server/Custom_GeoDataManager.class" afterPath="$PROJECT_DIR$/properfilesInWar/WEB-INF/classes/com/amazonaws/geo/server/Custom_GeoDataManager.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/properfilesInWar/WEB-INF/classes/com/amazonaws/geo/server/GeoDynamoDBServlet.class" afterPath="$PROJECT_DIR$/properfilesInWar/WEB-INF/classes/com/amazonaws/geo/server/GeoDynamoDBServlet.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/amazonaws/geo/server/Custom_GeoDataManager$GeoQueryThread.class" afterPath="$PROJECT_DIR$/target/classes/com/amazonaws/geo/server/Custom_GeoDataManager$GeoQueryThread.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/amazonaws/geo/server/Custom_GeoDataManager.class" afterPath="$PROJECT_DIR$/target/classes/com/amazonaws/geo/server/Custom_GeoDataManager.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/amazonaws/geo/server/GeoDynamoDBServlet.class" afterPath="$PROJECT_DIR$/target/classes/com/amazonaws/geo/server/GeoDynamoDBServlet.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/Custom_GeoDataManager.java" afterPath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/Geo_Data_Manager.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/DynamoDBManager_Custom.java" afterPath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/DynamoDB_Manager.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoDataManagerConfiguration_Custom.java" afterPath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoDataManager_Configuration.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoTableUtil_Custom.java" afterPath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoTable_Util.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dynamodb-geo-server.iml" afterPath="$PROJECT_DIR$/dynamodb-geo-server.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/Custom_GeoDataManager.java" afterPath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/Custom_GeoDataManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoDynamoDBServlet.java" afterPath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoDynamoDBServlet.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/util/Utilities.java" afterPath="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/util/Utilities.java" />
     </list>
     <ignored path="dynamodb-geo-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -57,10 +39,78 @@
       <file leaf-file-name="GeoDynamoDBServlet.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoDynamoDBServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2">
-              <caret line="601" column="65" selection-start-line="601" selection-start-column="65" selection-end-line="601" selection-end-column="65" />
+            <state relative-caret-position="369">
+              <caret line="171" column="0" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#10529#10545#0" expanded="true" />
+                <element signature="method#getBadge#0;class#GeoDynamoDBServlet#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GeoTable_Util.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoTable_Util.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HashReference.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/HashReference.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="15" column="47" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
+              <folding>
+                <element signature="e#800#801#0" expanded="true" />
+                <element signature="e#838#839#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Geo_Data_Manager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/Geo_Data_Manager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-107">
+              <caret line="220" column="20" selection-start-line="220" selection-start-column="20" selection-end-line="220" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Utilities.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/util/Utilities.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1273">
+              <caret line="70" column="37" selection-start-line="70" selection-start-column="37" selection-end-line="70" selection-end-column="37" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DynamoDB_Manager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/DynamoDB_Manager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="46" column="12" selection-start-line="46" selection-start-column="12" selection-end-line="46" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GeoDataManager_Configuration.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoDataManager_Configuration.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-481">
+              <caret line="79" column="32" selection-start-line="79" selection-start-column="32" selection-end-line="79" selection-end-column="32" />
+              <folding>
+                <element signature="e#3386#3387#0" expanded="true" />
+                <element signature="e#3430#3431#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -69,12 +119,10 @@
       <file leaf-file-name="User_Badges.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/User_Badges.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="15" column="31" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
+            <state relative-caret-position="-1037">
+              <caret line="20" column="33" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1982#1983#0" expanded="true" />
-                <element signature="e#2013#2014#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -83,26 +131,19 @@
       <file leaf-file-name="User_Locations.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/User_Locations.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
-              <folding>
-                <element signature="e#636#637#0" expanded="false" />
-                <element signature="e#666#667#0" expanded="false" />
-                <element signature="e#709#710#0" expanded="false" />
-                <element signature="e#747#748#0" expanded="false" />
-                <element signature="e#833#834#0" expanded="false" />
-                <element signature="e#866#867#0" expanded="false" />
-                <element signature="e#917#918#0" expanded="false" />
-                <element signature="e#961#962#0" expanded="false" />
-                <element signature="e#1045#1046#0" expanded="false" />
-                <element signature="e#1075#1076#0" expanded="false" />
-                <element signature="e#1121#1122#0" expanded="false" />
-                <element signature="e#1159#1160#0" expanded="false" />
-                <element signature="e#1243#1244#0" expanded="false" />
-                <element signature="e#1273#1274#0" expanded="false" />
-                <element signature="e#1319#1320#0" expanded="false" />
-                <element signature="e#1357#1358#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="374">
+              <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Facebook_Class.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/util/Facebook_Class.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="25" column="53" selection-start-line="25" selection-start-column="53" selection-end-line="25" selection-end-column="53" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -137,15 +178,17 @@
         <option value="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/User_Locations.java" />
         <option value="$PROJECT_DIR$/src/main/resources/school_list_wa.txt" />
         <option value="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoTableUtil_Custom.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/util/Utilities.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoDataManagerConfiguration_Custom.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/DynamoDBManager_Custom.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/FacebookClass.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/Facebook_Class.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/util/Facebook_Class.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/Custom_GeoDataManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/User_Badges.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/Custom_GeoDataManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/Geo_Data_Manager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/util/Utilities.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/DynamoDB_Manager.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoDynamoDBServlet.java" />
       </list>
     </option>
@@ -188,24 +231,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="dynamodb-geo-server">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -221,28 +246,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="dynamodb-geo-server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dynamodb-geo-server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dynamodb-geo-server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -292,6 +295,24 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane">
+        <subPane />
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="dynamodb-geo-server">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -589,7 +610,14 @@
       <option name="project" value="LOCAL" />
       <updated>1470354788719</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="added methods to compare badge items of users we are returning back to the client">
+      <created>1472182234461</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1472182234461</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView">
@@ -603,11 +631,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297546" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.07822086" sideWeight="0.38880485" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.07822086" sideWeight="0.61119515" order="1" side_tool="true" content_ui="tabs" />
@@ -617,13 +644,14 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.043209877" sideWeight="0.49092284" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22844176" sideWeight="0.5" order="5" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22844176" sideWeight="0.5" order="5" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.07822086" sideWeight="0.38880485" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -647,7 +675,8 @@
     <MESSAGE value="changed response to only return array of users" />
     <MESSAGE value="Order the array of users im returning from closest to furthest." />
     <MESSAGE value="return 16 users instead of 20 for each increment" />
-    <option name="LAST_COMMIT_MESSAGE" value="return 16 users instead of 20 for each increment" />
+    <MESSAGE value="added methods to compare badge items of users we are returning back to the client" />
+    <option name="LAST_COMMIT_MESSAGE" value="added methods to compare badge items of users we are returning back to the client" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -761,13 +790,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/HashReference.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="30" column="42" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/school_list_wa.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -831,14 +853,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/util/Utilities.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="108" column="43" selection-start-line="108" selection-start-column="43" selection-end-line="108" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/com/amazonaws/aws-java-sdk/1.5.5/aws-java-sdk-1.5.5.jar!/com/amazonaws/services/dynamodbv2/model/QueryRequest.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="585">
@@ -850,13 +864,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoTableUtil_Custom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -912,16 +919,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/util/Facebook_Class.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="25" column="53" selection-start-line="25" selection-start-column="53" selection-end-line="25" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dynamodb-geo-server.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -951,22 +948,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/DynamoDBManager_Custom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoDataManagerConfiguration_Custom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="537">
-          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/com/amazonaws/aws-java-sdk/1.5.5/aws-java-sdk-1.5.5.jar!/com/amazonaws/services/dynamodbv2/model/QueryResult.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -974,57 +955,94 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/User_Locations.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/User_Badges.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
+        <state relative-caret-position="-1037">
+          <caret line="20" column="33" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
           <folding>
-            <element signature="e#636#637#0" expanded="false" />
-            <element signature="e#666#667#0" expanded="false" />
-            <element signature="e#709#710#0" expanded="false" />
-            <element signature="e#747#748#0" expanded="false" />
-            <element signature="e#833#834#0" expanded="false" />
-            <element signature="e#866#867#0" expanded="false" />
-            <element signature="e#917#918#0" expanded="false" />
-            <element signature="e#961#962#0" expanded="false" />
-            <element signature="e#1045#1046#0" expanded="false" />
-            <element signature="e#1075#1076#0" expanded="false" />
-            <element signature="e#1121#1122#0" expanded="false" />
-            <element signature="e#1159#1160#0" expanded="false" />
-            <element signature="e#1243#1244#0" expanded="false" />
-            <element signature="e#1273#1274#0" expanded="false" />
-            <element signature="e#1319#1320#0" expanded="false" />
-            <element signature="e#1357#1358#0" expanded="false" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/Custom_GeoDataManager.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/util/Facebook_Class.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="453">
-          <caret line="110" column="34" selection-start-line="110" selection-start-column="34" selection-end-line="110" selection-end-column="34" />
+        <state relative-caret-position="306">
+          <caret line="25" column="53" selection-start-line="25" selection-start-column="53" selection-end-line="25" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/User_Badges.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/util/Utilities.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="15" column="31" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
+        <state relative-caret-position="-1273">
+          <caret line="70" column="37" selection-start-line="70" selection-start-column="37" selection-end-line="70" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/User_Locations.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoTable_Util.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/HashReference.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="15" column="47" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1982#1983#0" expanded="true" />
-            <element signature="e#2013#2014#0" expanded="true" />
+            <element signature="e#800#801#0" expanded="true" />
+            <element signature="e#838#839#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoDataManager_Configuration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-481">
+          <caret line="79" column="32" selection-start-line="79" selection-start-column="32" selection-end-line="79" selection-end-column="32" />
+          <folding>
+            <element signature="e#3386#3387#0" expanded="true" />
+            <element signature="e#3430#3431#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/Geo_Data_Manager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-107">
+          <caret line="220" column="20" selection-start-line="220" selection-start-column="20" selection-end-line="220" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/DynamoDB_Manager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="46" column="12" selection-start-line="46" selection-start-column="12" selection-end-line="46" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/amazonaws/geo/server/GeoDynamoDBServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2">
-          <caret line="601" column="65" selection-start-line="601" selection-start-column="65" selection-end-line="601" selection-end-column="65" />
+        <state relative-caret-position="369">
+          <caret line="171" column="0" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#10529#10545#0" expanded="true" />
+            <element signature="method#getBadge#0;class#GeoDynamoDBServlet#0" expanded="false" />
           </folding>
         </state>
       </provider>

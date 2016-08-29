@@ -10,13 +10,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
-
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-public class GeoDataManagerConfiguration_Custom {
+public class GeoDataManager_Configuration {
     public static final long MERGE_THRESHOLD = 2L;
     private static final String DEFAULT_HASHKEY_ATTRIBUTE_NAME = "hashKey";
     private static final String DEFAULT_RANGEKEY_ATTRIBUTE_NAME = "rangeKey";
@@ -35,7 +29,7 @@ public class GeoDataManagerConfiguration_Custom {
     private AmazonDynamoDBClient dynamoDBClient;
     private ExecutorService executorService;
 
-    public GeoDataManagerConfiguration_Custom(AmazonDynamoDBClient dynamoDBClient, String tableName) {
+    public GeoDataManager_Configuration(AmazonDynamoDBClient dynamoDBClient, String tableName) {
         this.dynamoDBClient = dynamoDBClient;
         this.tableName = tableName;
     }
@@ -56,7 +50,7 @@ public class GeoDataManagerConfiguration_Custom {
         this.hashKeyAttributeName = hashKeyAttributeName;
     }
 
-    public GeoDataManagerConfiguration_Custom withHashKeyAttributeName(String hashKeyAttributeName) {
+    public GeoDataManager_Configuration withHashKeyAttributeName(String hashKeyAttributeName) {
         this.setHashKeyAttributeName(hashKeyAttributeName);
         return this;
     }
@@ -69,7 +63,7 @@ public class GeoDataManagerConfiguration_Custom {
         this.rangeKeyAttributeName = rangeKeyAttributeName;
     }
 
-    public GeoDataManagerConfiguration_Custom withRangeKeyAttributeName(String rangeKeyAttributeName) {
+    public GeoDataManager_Configuration withRangeKeyAttributeName(String rangeKeyAttributeName) {
         this.setRangeKeyAttributeName(rangeKeyAttributeName);
         return this;
     }
@@ -82,7 +76,7 @@ public class GeoDataManagerConfiguration_Custom {
         this.geohashAttributeName = geohashAttributeName;
     }
 
-    public GeoDataManagerConfiguration_Custom withGeohashAttributeName(String geohashAttributeName) {
+    public GeoDataManager_Configuration withGeohashAttributeName(String geohashAttributeName) {
         this.setGeohashAttributeName(geohashAttributeName);
         return this;
     }
@@ -95,7 +89,7 @@ public class GeoDataManagerConfiguration_Custom {
         this.geoJsonAttributeName = geoJsonAttributeName;
     }
 
-    public GeoDataManagerConfiguration_Custom withGeoJsonAttributeName(String geoJsonAttributeName) {
+    public GeoDataManager_Configuration withGeoJsonAttributeName(String geoJsonAttributeName) {
         this.setGeoJsonAttributeName(geoJsonAttributeName);
         return this;
     }
@@ -108,7 +102,7 @@ public class GeoDataManagerConfiguration_Custom {
         this.geohashIndexName = geohashIndexName;
     }
 
-    public GeoDataManagerConfiguration_Custom withGeohashIndexName(String geohashIndexName) {
+    public GeoDataManager_Configuration withGeohashIndexName(String geohashIndexName) {
         this.setGeohashIndexName(geohashIndexName);
         return this;
     }
@@ -121,7 +115,7 @@ public class GeoDataManagerConfiguration_Custom {
         this.hashKeyLength = hashKeyLength;
     }
 
-    public GeoDataManagerConfiguration_Custom withHashKeyLength(int hashKeyLength) {
+    public GeoDataManager_Configuration withHashKeyLength(int hashKeyLength) {
         this.setHashKeyLength(hashKeyLength);
         return this;
     }

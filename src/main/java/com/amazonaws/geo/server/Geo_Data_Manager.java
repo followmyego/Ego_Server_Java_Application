@@ -1,9 +1,6 @@
 package com.amazonaws.geo.server;
 
 import com.amazonaws.AmazonClientException;
-import com.amazonaws.geo.GeoDataManager;
-import com.amazonaws.geo.GeoDataManagerConfiguration;
-import com.amazonaws.geo.dynamodb.internal.DynamoDBManager;
 import com.amazonaws.geo.dynamodb.internal.DynamoDBUtil;
 import com.amazonaws.geo.s2.internal.S2Manager;
 import com.amazonaws.geo.s2.internal.S2Util;
@@ -13,7 +10,6 @@ import com.amazonaws.services.dynamodbv2.model.QueryRequest;
 import com.amazonaws.services.dynamodbv2.model.QueryResult;
 import com.google.common.geometry.S2CellId;
 import com.google.common.geometry.S2CellUnion;
-import com.google.common.geometry.S2LatLng;
 import com.google.common.geometry.S2LatLngRect;
 
 import java.util.*;
@@ -37,8 +33,6 @@ import com.amazonaws.geo.model.QueryRectangleRequest;
 import com.amazonaws.geo.model.QueryRectangleResult;
 import com.amazonaws.geo.model.UpdatePointRequest;
 import com.amazonaws.geo.model.UpdatePointResult;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
 
 /**
  * <p>
@@ -51,17 +45,17 @@ import org.codehaus.jackson.JsonParser;
  * </p>
  * */
 
-public class Custom_GeoDataManager {
-    private GeoDataManagerConfiguration_Custom config;
-    private DynamoDBManager_Custom dynamoDBManager;
+public class Geo_Data_Manager {
+    private GeoDataManager_Configuration config;
+    private DynamoDB_Manager dynamoDBManager;
     private int count;
 
-    public Custom_GeoDataManager(GeoDataManagerConfiguration_Custom config) {
+    public Geo_Data_Manager(GeoDataManager_Configuration config) {
         this.config = config;
-        this.dynamoDBManager = new DynamoDBManager_Custom(this.config);
+        this.dynamoDBManager = new DynamoDB_Manager(this.config);
     }
 
-    public GeoDataManagerConfiguration_Custom getGeoDataManagerConfiguration() {
+    public GeoDataManager_Configuration getGeoDataManagerConfiguration() {
         return this.config;
     }
 
@@ -164,20 +158,13 @@ public class Custom_GeoDataManager {
         ArrayList<double[]> points = new ArrayList<double[]>();
         ArrayList<String> facebookIds = new ArrayList<String>();
         double[] centerPointCoordinates = new double[2];
-
         GeoPoint centerPoint = null;
-        S2LatLngRect latLngRect = null;
-        S2LatLng centerLatLng = null;
-        double radiusInMeter = 0.0D;
-        if(geoQueryRequest instanceof QueryRectangleRequest) {
-            latLngRect = S2Util.getBoundingLatLngRect(geoQueryRequest);
-        } else if(geoQueryRequest instanceof QueryRadiusRequest) {
+
+        if(geoQueryRequest instanceof QueryRadiusRequest) {
             centerPoint = ((QueryRadiusRequest)geoQueryRequest).getCenterPoint();
-            centerLatLng = S2LatLng.fromDegrees(centerPoint.getLatitude(), centerPoint.getLongitude());
         }
 
-
-
+        //Get the long and lat of the center point
         if(centerPoint != null){
             centerPointCoordinates[0] = centerPoint.getLongitude();
             centerPointCoordinates[1] = centerPoint.getLatitude();
@@ -198,10 +185,7 @@ public class Custom_GeoDataManager {
                 double[] point = { latitude, longitude };
                 points.add(point);
                 facebookIds.add(rangeKey);
-
             }
-
-
 
             while(points.size() != 0){
                 //find the nearestPoint
@@ -283,8 +267,8 @@ public class Custom_GeoDataManager {
 
         public void run() {
             QueryRequest queryRequest = DynamoDBUtil.copyQueryRequest(this.geoQueryRequest.getQueryRequest());
-            long hashKey = S2Manager.generateHashKey(this.range.getRangeMin(), Custom_GeoDataManager.this.config.getHashKeyLength());
-            List queryResults = Custom_GeoDataManager.this.dynamoDBManager.queryGeohash(queryRequest, hashKey, this.range, count);
+            long hashKey = S2Manager.generateHashKey(this.range.getRangeMin(), Geo_Data_Manager.this.config.getHashKeyLength());
+            List queryResults = Geo_Data_Manager.this.dynamoDBManager.queryGeohash(queryRequest, hashKey, this.range, count);
             Iterator iterator = queryResults.iterator();
 
 
@@ -295,7 +279,7 @@ public class Custom_GeoDataManager {
                 }
 
                 this.geoQueryResult.getQueryResults().add(queryResult);
-                List filteredQueryResult = Custom_GeoDataManager.this.filter(queryResult.getItems(), this.geoQueryRequest);
+                List filteredQueryResult = Geo_Data_Manager.this.filter(queryResult.getItems(), this.geoQueryRequest);
                 this.geoQueryResult.getItem().addAll(filteredQueryResult);
             }
 

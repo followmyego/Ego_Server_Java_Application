@@ -33,9 +33,7 @@ import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.geo.GeoDataManager;
 import com.amazonaws.geo.s2.internal.S2Manager;
-import com.amazonaws.geo.server.util.Facebook_Class;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.identitymanagement.model.User;
 import com.amazonaws.util.json.JSONArray;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonNode;
@@ -75,8 +73,8 @@ import com.amazonaws.util.json.JSONObject;
 public class GeoDynamoDBServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private GeoDataManagerConfiguration_Custom config;
-	private Custom_GeoDataManager geoDataManager;
+	private GeoDataManager_Configuration config;
+	private Geo_Data_Manager geoDataManager;
 	private GeoDataManager geoDataManager2;
 
 	private DynamoDBMapper dynamoDBMapper;
@@ -103,8 +101,8 @@ public class GeoDynamoDBServlet extends HttpServlet {
 		Region region = Region.getRegion(Regions.fromName(regionName));
 		ddb.setRegion(region);
 
-		config = new GeoDataManagerConfiguration_Custom(ddb, tableName);
-		geoDataManager = new Custom_GeoDataManager(config);
+		config = new GeoDataManager_Configuration(ddb, tableName);
+		geoDataManager = new Geo_Data_Manager(config);
 		dynamoDBMapper = new DynamoDBMapper(ddb);
 	}
 
@@ -153,7 +151,6 @@ public class GeoDynamoDBServlet extends HttpServlet {
 		String hashToCompare = "";
 		GeoPoint geoPoint = new GeoPoint(requestObject.getDouble("lat"), requestObject.getDouble("lng"));
 		AttributeValue rangeKeyAttributeValue = new AttributeValue().withS(requestObject.getString("rangeKey"));
-//		AttributeValue schoolNameKeyAttributeValue = new AttributeValue().withS(requestObject.getString("schoolName"));
 		log("fist section123");
 		long geohash = S2Manager.generateGeohash(geoPoint);
 		String hashKey = S2Manager.generateHashKey(geohash, this.config.getHashKeyLength()) + "";
@@ -196,9 +193,7 @@ public class GeoDynamoDBServlet extends HttpServlet {
 		if( hashToCompare.equals(hashKey) ){
 			//Replace item in location table with new item.
 		PutPointRequest putPointRequest = new PutPointRequest(geoPoint, rangeKeyAttributeValue);
-//		putPointRequest.getPutItemRequest().addItemEntry("schoolName", schoolNameKeyAttributeValue);
 		putPointResult = geoDataManager.putPoint(putPointRequest); //This is where the data is inserted
-//			printPutPointResult(putPointResult, out, 0);
 			queryRadius(requestObject, out);
  		} else if ( !hashToCompare.equals(hashKey) ){
 			//Replace item from id_table and insert new item with new hash key.
@@ -219,9 +214,7 @@ public class GeoDynamoDBServlet extends HttpServlet {
 
 			//Insert new item into location table with newly updated hashkey.
 			PutPointRequest putPointRequest = new PutPointRequest(geoPoint, rangeKeyAttributeValue);
-//		putPointRequest.getPutItemRequest().addItemEntry("schoolName", schoolNameKeyAttributeValue);
 			putPointResult = geoDataManager.putPoint(putPointRequest); //This is where the data is inserted
-//			printPutPointResult(putPointResult, out, 1);
 			queryRadius(requestObject, out);
 		}  else {
 			Map<String, String> jsonMap = new HashMap<String, String>();
@@ -268,7 +261,8 @@ public class GeoDynamoDBServlet extends HttpServlet {
 		String hashKey = item.get(config.getHashKeyAttributeName()).getN();
 		String rangeKey = item.get(config.getRangeKeyAttributeName()).getS();
 		String geohash = item.get(config.getGeohashAttributeName()).getN();
-//		String schoolName = item.get("schoolName").getS();
+
+		//This variable is used for debugging
 		String memo = "";
 		if (item.containsKey("memo")) {
 			memo = item.get("memo").getS();
@@ -280,7 +274,6 @@ public class GeoDynamoDBServlet extends HttpServlet {
 		resultMap.put("hashKey", hashKey);
 		resultMap.put("rangeKey", rangeKey);
 		resultMap.put("geohash", geohash);
-//		resultMap.put("schoolName", schoolName);
 		resultMap.put("memo", memo);
 
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
@@ -295,19 +288,8 @@ public class GeoDynamoDBServlet extends HttpServlet {
 		GeoPoint geoPoint = new GeoPoint(requestObject.getDouble("lat"), requestObject.getDouble("lng"));
 		AttributeValue rangeKeyAttributeValue = new AttributeValue().withS(requestObject.getString("rangeKey"));
 
-//		String schoolName = requestObject.getString("schoolName");
-//		AttributeValueUpdate schoolNameValueUpdate = null;
-
 		String memo = requestObject.getString("memo");
 		AttributeValueUpdate memoValueUpdate = null;
-
-//		if (schoolName == null || schoolName.equalsIgnoreCase("")) {
-//			schoolNameValueUpdate = new AttributeValueUpdate().withAction(AttributeAction.DELETE);
-//		} else {
-//			AttributeValue schoolNameAttributeValue = new AttributeValue().withS(schoolName);
-//			schoolNameValueUpdate = new AttributeValueUpdate().withAction(AttributeAction.PUT).withValue(
-//					schoolNameAttributeValue);
-//		}
 
 		if (memo == null || memo.equalsIgnoreCase("")) {
 			memoValueUpdate = new AttributeValueUpdate().withAction(AttributeAction.DELETE);
@@ -317,9 +299,7 @@ public class GeoDynamoDBServlet extends HttpServlet {
 		}
 
 		UpdatePointRequest updatePointRequest = new UpdatePointRequest(geoPoint, rangeKeyAttributeValue);
-//		updatePointRequest.getUpdateItemRequest().addAttributeUpdatesEntry("schoolName", schoolNameValueUpdate);
 		updatePointRequest.getUpdateItemRequest().addAttributeUpdatesEntry("memo", memoValueUpdate);
-
 		UpdatePointResult updatePointResult = geoDataManager.updatePoint(updatePointRequest);
 
 		printUpdatePointResult(updatePointResult, out);
@@ -342,38 +322,31 @@ public class GeoDynamoDBServlet extends HttpServlet {
 		List<String> attributesToGet = new ArrayList<String>();
 		attributesToGet.add(config.getRangeKeyAttributeName());
 		attributesToGet.add(config.getGeoJsonAttributeName());
-//		attributesToGet.add("schoolName");
 
 		QueryRectangleRequest queryRectangleRequest = new QueryRectangleRequest(minPoint, maxPoint);
 		queryRectangleRequest.getQueryRequest().setAttributesToGet(attributesToGet);
 		QueryRectangleResult queryRectangleResult = geoDataManager.queryRectangle(queryRectangleRequest);
 
-		printGeoQueryResult(queryRectangleResult, out, "someString");
+		printGeoQueryResult(queryRectangleResult, out);
 	}
 
 	private void queryRadius(JSONObject requestObject, PrintWriter out) throws IOException, JSONException {
 		GeoPoint centerPoint = new GeoPoint(requestObject.getDouble("lat"), requestObject.getDouble("lng"));
 		double radiusInMeter = requestObject.getDouble("radiusInMeter");
 		int count = requestObject.getInt("count");
-
-		//This is the to test the facebook api working from the server but i am getting a FileNotFoundException.
-		String accessToken = requestObject.getString("accessToken");
-//		String hometown = Facebook_Class.getHometown(accessToken);
-		String hometown = " ";
 		
 		List<String> attributesToGet = new ArrayList<String>();
 		attributesToGet.add(config.getRangeKeyAttributeName());
 		attributesToGet.add(config.getGeoJsonAttributeName());
-//		attributesToGet.add("schoolName");
 
 		QueryRadiusRequest queryRadiusRequest = new QueryRadiusRequest(centerPoint, radiusInMeter);
 		queryRadiusRequest.getQueryRequest().setAttributesToGet(attributesToGet);
 		QueryRadiusResult queryRadiusResult = geoDataManager.queryRadius(queryRadiusRequest, count);
 
-		printGeoQueryResult(queryRadiusResult, out, hometown);
+		printGeoQueryResult(queryRadiusResult, out);
 	}
 
-	private void printGeoQueryResult(GeoQueryResult geoQueryResult, PrintWriter out, String homeTown) throws JsonParseException,
+	private void printGeoQueryResult(GeoQueryResult geoQueryResult, PrintWriter out) throws JsonParseException,
 			IOException {
 
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
@@ -398,13 +371,10 @@ public class GeoDynamoDBServlet extends HttpServlet {
 			itemMap.put("rangeKey", rangeKey);
 			itemMap.put("badge", Integer.toString(badgeNumber));
 
-//			itemMap.put("schoolName", schoolName);
-
 			resultArray.add(itemMap);
 		}
 
 		jsonMap.put("action", "query");
-//		jsonMap.put("homeTown", homeTown);
 		jsonMap.put("result", resultArray);
 
 		out.println(mapper.writeValueAsString(jsonMap));
